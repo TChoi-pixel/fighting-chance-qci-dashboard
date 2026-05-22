@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fighting Chance – Q&CI Operations System</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fc-navy: #1a2e4a;
+  --fc-orange: #e87722;
+  --fc-blue: #2e7bb8;
+  --fc-teal: #3aada8;
+  --fc-green: #5cb85c;
+  --fc-red: #d9534f;
+  --fc-amber: #f0ad4e;
+  --bg: #f4f6f9;
+  --white: #ffffff;
+  --text: #1a2e4a;
+  --muted: #6b7a8d;
+  --border: #e0e6ef;
+  --shadow: 0 2px 16px rgba(26,46,74,0.08);
+  --shadow-lg: 0 8px 32px rgba(26,46,74,0.14);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ─── HEADER ─── */
+.header {
+  background: var(--fc-navy);
+  padding: 0 28px;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky; top: 0; z-index: 200;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18);
+}
+.header-logo {
+  display: flex; align-items: center; gap: 14px;
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  background: var(--fc-orange);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; color: white;
+  letter-spacing: -1px;
+}
+.logo-text { line-height: 1.1; }
+.logo-text .fc { font-size: 14px; font-weight: 800; color: white; letter-spacing: 0.5px; }
+.logo-text .sub { font-size: 10px; color: rgba(255,255,255,0.5); font-weight: 400; letter-spacing: 1px; text-transform: uppercase; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-meta { text-align: right; }
+.header-meta .site { font-size: 11px; color: var(--fc-orange); font-weight: 600; letter-spacing: 0.5px; }
+.header-meta .dt { font-size: 11px; color: rgba(255,255,255,0.45); }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4cdc84; box-shadow: 0 0 0 3px rgba(76,220,132,0.2); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 3px rgba(76,220,132,0.2)} 50%{box-shadow:0 0 0 6px rgba(76,220,132,0.08)} }
+
+/* ─── NAV TABS ─── */
+.nav-tabs {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  display: flex;
+  padding: 0 28px;
+  gap: 2px;
+  overflow-x: auto;
+}
+.nav-tab {
+  padding: 14px 20px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  white-space: nowrap;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 7px;
+  background: none; border-top: none; border-left: none; border-right: none;
+}
+.nav-tab:hover { color: var(--fc-navy); }
+.nav-tab.active { color: var(--fc-orange); border-bottom-color: var(--fc-orange); }
+.tab-icon { font-size: 15px; }
+
+/* ─── MAIN ─── */
+.main { padding: 24px 28px 60px; max-width: 1280px; margin: 0 auto; }
+
+/* ─── PAGE ─── */
+.page { display: none; animation: fadeUp 0.35s ease; }
+.page.active { display: block; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* ─── PAGE HEADER ─── */
+.page-header { margin-bottom: 24px; }
+.page-header h2 { font-size: 22px; font-weight: 700; color: var(--fc-navy); }
+.page-header p { font-size: 13px; color: var(--muted); margin-top: 3px; }
+
+/* ─── METRIC CARDS ─── */
+.metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-bottom: 24px; }
+.metric {
+  background: var(--white);
+  border-radius: 14px;
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+  border-left: 4px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.metric:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.metric.orange { border-left-color: var(--fc-orange); }
+.metric.blue { border-left-color: var(--fc-blue); }
+.metric.teal { border-left-color: var(--fc-teal); }
+.metric.green { border-left-color: var(--fc-green); }
+.metric.red { border-left-color: var(--fc-red); }
+.metric.amber { border-left-color: var(--fc-amber); }
+.metric-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 6px; }
+.metric-value { font-size: 28px; font-weight: 800; color: var(--fc-navy); line-height: 1; }
+.metric-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.metric-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px; margin-top: 4px; }
+.badge-green { background: rgba(92,184,92,0.12); color: var(--fc-green); }
+.badge-red { background: rgba(217,83,79,0.12); color: var(--fc-red); }
+.badge-amber { background: rgba(240,173,78,0.12); color: var(--fc-amber); }
+
+/* ─── GRID LAYOUTS ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-bottom: 18px; }
+.grid-60-40 { display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; margin-bottom: 18px; }
+@media(max-width:900px){.grid-2,.grid-3,.grid-60-40{grid-template-columns:1fr;}}
+
+/* ─── PANEL ─── */
+.panel {
+  background: var(--white);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.panel-header {
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.panel-title { font-size: 14px; font-weight: 700; color: var(--fc-navy); }
+.panel-action { font-size: 11px; font-weight: 600; color: var(--fc-orange); cursor: pointer; }
+.panel-body { padding: 18px 20px; }
+
+/* ─── STATUS BADGES ─── */
+.status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 100px; }
+.status::before { content:''; width:6px; height:6px; border-radius:50%; background: currentColor; opacity: 0.7; }
+.s-open { background: rgba(240,173,78,0.12); color: #b8810a; }
+.s-closed { background: rgba(92,184,92,0.12); color: #3d7a3d; }
+.s-overdue { background: rgba(217,83,79,0.12); color: #a52b28; }
+.s-progress { background: rgba(46,123,184,0.12); color: #1a5a8a; }
+.s-compliant { background: rgba(92,184,92,0.12); color: #3d7a3d; }
+.s-gap { background: rgba(217,83,79,0.12); color: #a52b28; }
+.s-review { background: rgba(240,173,78,0.12); color: #b8810a; }
+.s-critical { background: rgba(217,83,79,0.15); color: #a52b28; }
+.s-moderate { background: rgba(240,173,78,0.15); color: #b8810a; }
+.s-low { background: rgba(92,184,92,0.12); color: #3d7a3d; }
+
+/* ─── TABLE ─── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { text-align: left; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); padding: 8px 12px; border-bottom: 2px solid var(--border); }
+.data-table td { padding: 11px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: rgba(26,46,74,0.025); }
+.td-name { font-weight: 600; color: var(--fc-navy); }
+.td-muted { color: var(--muted); font-size: 12px; }
+
+/* ─── PROGRESS BAR ─── */
+.prog-wrap { background: var(--border); border-radius: 100px; height: 6px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 100px; transition: width 1s ease; }
+.prog-orange { background: var(--fc-orange); }
+.prog-green { background: var(--fc-green); }
+.prog-blue { background: var(--fc-blue); }
+.prog-red { background: var(--fc-red); }
+.prog-amber { background: var(--fc-amber); }
+
+/* ─── DONUT CHART ─── */
+.donut-wrap { position: relative; width: 120px; height: 120px; margin: 0 auto 12px; }
+.donut-wrap svg { transform: rotate(-90deg); }
+.donut-center { position: absolute; top:50%; left:50%; transform: translate(-50%,-50%); text-align: center; }
+.donut-center .big { font-size: 22px; font-weight: 800; color: var(--fc-navy); }
+.donut-center .sm { font-size: 10px; color: var(--muted); font-weight: 600; }
+
+/* ─── CI REGISTER ─── */
+.ci-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: start;
+}
+.ci-item:last-child { border-bottom: none; }
+.ci-id { font-size: 10px; font-weight: 700; color: var(--fc-orange); letter-spacing: 0.5px; }
+.ci-title { font-size: 13px; font-weight: 600; color: var(--fc-navy); margin: 3px 0; }
+.ci-meta { font-size: 11px; color: var(--muted); }
+.ci-due { font-size: 11px; font-weight: 600; color: var(--muted); text-align: right; }
+.ci-due.overdue { color: var(--fc-red); }
+
+/* ─── AUDIT TIMELINE ─── */
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content:''; position: absolute; left: 10px; top: 0; bottom: 0; width: 2px; background: var(--border); }
+.tl-item { position: relative; padding-bottom: 20px; }
+.tl-item:last-child { padding-bottom: 0; }
+.tl-dot {
+  position: absolute; left: -22px; top: 3px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--white);
+  box-shadow: 0 0 0 2px var(--border);
+}
+.tl-dot.complete { background: var(--fc-green); box-shadow: 0 0 0 2px rgba(92,184,92,0.3); }
+.tl-dot.active { background: var(--fc-orange); box-shadow: 0 0 0 2px rgba(232,119,34,0.3); animation: pulse 2s infinite; }
+.tl-dot.upcoming { background: var(--border); }
+.tl-date { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 2px; }
+.tl-title { font-size: 13px; font-weight: 600; color: var(--fc-navy); }
+.tl-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* ─── MANDATORY REPORTING ─── */
+.report-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.report-item:last-child { border-bottom: none; }
+.report-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+.ri-orange { background: rgba(232,119,34,0.1); }
+.ri-red { background: rgba(217,83,79,0.1); }
+.ri-blue { background: rgba(46,123,184,0.1); }
+.ri-teal { background: rgba(58,173,168,0.1); }
+.report-info { flex: 1; }
+.report-title { font-size: 13px; font-weight: 600; color: var(--fc-navy); }
+.report-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.report-meta { text-align: right; font-size: 11px; }
+.report-count { font-size: 18px; font-weight: 800; color: var(--fc-navy); }
+.report-label { color: var(--muted); display: block; }
+
+/* ─── SITE CARDS ─── */
+.site-card {
+  background: var(--white); border-radius: 12px;
+  padding: 16px; box-shadow: var(--shadow);
+  border-top: 3px solid var(--fc-orange);
+  transition: transform 0.2s;
+}
+.site-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.site-name { font-size: 14px; font-weight: 700; color: var(--fc-navy); margin-bottom: 4px; }
+.site-type { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+.site-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 6px; }
+.site-row-label { color: var(--muted); }
+.site-row-val { font-weight: 700; color: var(--fc-navy); }
+
+/* ─── WORKER SCREENING ─── */
+.screening-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.screening-row:last-child { border-bottom: none; }
+.screen-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--fc-navy); color: white;
+  font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.screen-name { font-size: 13px; font-weight: 600; flex: 1; }
+.screen-role { font-size: 11px; color: var(--muted); }
+.screen-exp { font-size: 11px; font-weight: 600; }
+.screen-exp.ok { color: var(--fc-green); }
+.screen-exp.warn { color: var(--fc-amber); }
+.screen-exp.over { color: var(--fc-red); }
+
+/* ─── RISK MATRIX ─── */
+.risk-matrix { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.risk-cell {
+  border-radius: 8px; padding: 10px 8px; text-align: center;
+  font-size: 11px; font-weight: 600;
+}
+.risk-high { background: rgba(217,83,79,0.15); color: #a52b28; }
+.risk-med { background: rgba(240,173,78,0.15); color: #b8810a; }
+.risk-low { background: rgba(92,184,92,0.12); color: #3d7a3d; }
+.risk-cell .risk-num { font-size: 20px; font-weight: 800; display: block; margin-bottom: 2px; }
+
+/* ─── INCIDENT LOG ─── */
+.incident-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 12px; align-items: center;
+  padding: 11px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.incident-row:last-child { border-bottom: none; }
+.inc-id { font-size: 10px; font-weight: 700; color: var(--muted); font-family: monospace; }
+
+/* ─── CHECKLIST PANEL ─── */
+.check-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--border);
+  font-size: 13px; cursor: pointer;
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 18px; height: 18px; border-radius: 5px;
+  border: 2px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s;
+  font-size: 11px; color: white;
+}
+.check-item.checked .check-box { background: var(--fc-green); border-color: var(--fc-green); }
+.check-item.checked .check-label { text-decoration: line-through; color: var(--muted); }
+
+/* ─── BAR CHART ─── */
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.bar-label { width: 100px; flex-shrink: 0; color: var(--muted); text-align: right; font-size: 11px; }
+.bar-track { flex: 1; background: var(--border); border-radius: 100px; height: 10px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 100px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+.bar-val { width: 36px; font-weight: 700; font-size: 12px; color: var(--fc-navy); }
+
+/* ─── MODAL ─── */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 500; align-items: center; justify-content: center; }
+.modal-overlay.open { display: flex; }
+.modal { background: white; border-radius: 18px; padding: 28px; width: 90%; max-width: 500px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.modal h3 { font-size: 18px; font-weight: 700; color: var(--fc-navy); margin-bottom: 6px; }
+.modal p { font-size: 13px; color: var(--muted); margin-bottom: 18px; }
+.modal-form label { font-size: 12px; font-weight: 600; color: var(--muted); display: block; margin-bottom: 4px; margin-top: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal-form input, .modal-form select, .modal-form textarea {
+  width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
+  border-radius: 8px; font-size: 13px; font-family: 'Outfit', sans-serif;
+  color: var(--fc-navy); outline: none; transition: border-color 0.2s;
+}
+.modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { border-color: var(--fc-orange); }
+.modal-form textarea { height: 70px; resize: none; }
+.modal-btns { display: flex; gap: 10px; margin-top: 18px; }
+.btn-primary { background: var(--fc-orange); color: white; border: none; padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; flex: 1; font-family: 'Outfit', sans-serif; }
+.btn-primary:hover { background: #c5621a; }
+.btn-secondary { background: var(--bg); color: var(--muted); border: 1.5px solid var(--border); padding: 10px 22px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Outfit', sans-serif; }
+
+/* ─── NOTIFICATION ─── */
+.toast {
+  position: fixed; bottom: 24px; right: 24px;
+  background: var(--fc-navy); color: white;
+  padding: 12px 20px; border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s; z-index: 1000;
+  border-left: 4px solid var(--fc-orange);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* ─── ACTION BTN ─── */
+.add-btn {
+  background: var(--fc-orange); color: white;
+  border: none; padding: 7px 16px; border-radius: 8px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 5px;
+}
+.add-btn:hover { background: #c5621a; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">
+    <div class="logo-mark">FC</div>
+    <div class="logo-text">
+      <div class="fc">Fighting Chance Group</div>
+      <div class="sub">Quality &amp; Continuous Improvement System</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-meta">
+      <div class="site">All Sites · NSW</div>
+      <div class="dt" id="live-dt"></div>
+    </div>
+    <div class="status-dot" title="System Live"></div>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showPage('dashboard')"><span class="tab-icon">📊</span>Dashboard</button>
+  <button class="nav-tab" onclick="showPage('audit')"><span class="tab-icon">🔍</span>Audit Program</button>
+  <button class="nav-tab" onclick="showPage('ci')"><span class="tab-icon">🔄</span>CI Register</button>
+  <button class="nav-tab" onclick="showPage('incidents')"><span class="tab-icon">🚨</span>Incidents &amp; Complaints</button>
+  <button class="nav-tab" onclick="showPage('workers')"><span class="tab-icon">👥</span>Worker Compliance</button>
+  <button class="nav-tab" onclick="showPage('sites')"><span class="tab-icon">📍</span>Site Overview</button>
+  <button class="nav-tab" onclick="showPage('reporting')"><span class="tab-icon">📋</span>NDIS Reporting</button>
+</div>
+
+<div class="main">
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page active" id="page-dashboard">
+  <div class="page-header">
+    <h2>Q&CI Operations Dashboard</h2>
+    <p>Real-time quality &amp; safeguarding overview across all Fighting Chance business units · May 2026</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric orange">
+      <div class="metric-label">Open CI Actions</div>
+      <div class="metric-value">12</div>
+      <div class="metric-sub">Across 6 sites</div>
+      <div class="metric-badge badge-amber">3 Overdue</div>
+    </div>
+    <div class="metric blue">
+      <div class="metric-label">Audits This Cycle</div>
+      <div class="metric-value">8</div>
+      <div class="metric-sub">2 in progress</div>
+      <div class="metric-badge badge-green">75% Complete</div>
+    </div>
+    <div class="metric green">
+      <div class="metric-label">Worker Screening</div>
+      <div class="metric-value">94%</div>
+      <div class="metric-sub">Current NDIS checks</div>
+      <div class="metric-badge badge-amber">6 Expiring Soon</div>
+    </div>
+    <div class="metric red">
+      <div class="metric-label">Incidents (YTD)</div>
+      <div class="metric-value">23</div>
+      <div class="metric-sub">Reported to Commission</div>
+      <div class="metric-badge badge-red">2 Unresolved</div>
+    </div>
+    <div class="metric teal">
+      <div class="metric-label">Complaints (YTD)</div>
+      <div class="metric-value">7</div>
+      <div class="metric-sub">5 closed, 2 open</div>
+      <div class="metric-badge badge-green">71% Closed</div>
+    </div>
+    <div class="metric amber">
+      <div class="metric-label">Practice Standards</div>
+      <div class="metric-value">88%</div>
+      <div class="metric-sub">Compliance rate</div>
+      <div class="metric-badge badge-amber">4 Gaps Active</div>
+    </div>
+  </div>
+
+  <div class="grid-60-40">
+    <!-- PRACTICE STANDARDS COMPLIANCE -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">NDIS Practice Standards Compliance — by Module</div>
+      </div>
+      <div class="panel-body">
+        <div class="bar-chart" id="standards-bars">
+          <div class="bar-row"><div class="bar-label">Rights &amp; Resp.</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="96%"></div></div><div class="bar-val">96%</div></div>
+          <div class="bar-row"><div class="bar-label">Governance</div><div class="bar-track"><div class="bar-fill prog-blue" style="width:0%" data-w="91%"></div></div><div class="bar-val">91%</div></div>
+          <div class="bar-row"><div class="bar-label">Service Delivery</div><div class="bar-track"><div class="bar-fill prog-orange" style="width:0%" data-w="84%"></div></div><div class="bar-val">84%</div></div>
+          <div class="bar-row"><div class="bar-label">Support Env.</div><div class="bar-track"><div class="bar-fill prog-orange" style="width:0%" data-w="79%"></div></div><div class="bar-val">79%</div></div>
+          <div class="bar-row"><div class="bar-label">Behaviour Sup.</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="93%"></div></div><div class="bar-val">93%</div></div>
+          <div class="bar-row"><div class="bar-label">Incident Mgmt</div><div class="bar-track"><div class="bar-fill prog-amber" style="width:0%" data-w="88%"></div></div><div class="bar-val">88%</div></div>
+          <div class="bar-row"><div class="bar-label">Worker Screen.</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="94%"></div></div><div class="bar-val">94%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CI ACTION STATUS -->
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">CI Action Status</div></div>
+      <div class="panel-body" style="display:flex;flex-direction:column;align-items:center;">
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#e0e6ef" stroke-width="12"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#5cb85c" stroke-width="12" stroke-dasharray="120.6 181.0" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#e87722" stroke-width="12" stroke-dasharray="60.3 241.3" stroke-dashoffset="-120.6" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#d9534f" stroke-width="12" stroke-dasharray="36.2 265.4" stroke-dashoffset="-180.9" stroke-linecap="round"/>
+          </svg>
+          <div class="donut-center"><div class="big">12</div><div class="sm">TOTAL</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;width:100%;margin-top:8px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#5cb85c;display:inline-block;"></span>Closed</span>
+            <span style="font-weight:700;">5 (42%)</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#e87722;display:inline-block;"></span>In Progress</span>
+            <span style="font-weight:700;">4 (33%)</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px;">
+            <span style="display:flex;align-items:center;gap:6px;"><span style="width:10px;height:10px;border-radius:2px;background:#d9534f;display:inline-block;"></span>Overdue</span>
+            <span style="font-weight:700;">3 (25%)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECENT ACTIVITY -->
+  <div class="panel">
+    <div class="panel-header"><div class="panel-title">Recent Quality Activity</div><div class="panel-action">View All →</div></div>
+    <div class="panel-body" style="padding:0;">
+      <table class="data-table">
+        <thead><tr><th>Date</th><th>Type</th><th>Site</th><th>Description</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="td-muted">21 May 2026</td><td><span class="status s-open">Incident</span></td><td class="td-name">Avenue Parramatta</td><td>Participant injury — support environment review initiated</td><td><span class="status s-progress">Under Review</span></td></tr>
+          <tr><td class="td-muted">20 May 2026</td><td><span class="status s-closed">Audit</span></td><td class="td-name">Jigsaw Frenchs Forest</td><td>PVV internal audit completed — 2 non-conformities identified</td><td><span class="status s-closed">Closed</span></td></tr>
+          <tr><td class="td-muted">19 May 2026</td><td><span class="status s-progress">CI Action</span></td><td class="td-name">Avenue Botany</td><td>Service agreement review — updated template deployed</td><td><span class="status s-closed">Closed</span></td></tr>
+          <tr><td class="td-muted">17 May 2026</td><td><span class="status s-overdue">Complaint</span></td><td class="td-name">SIL Service</td><td>Participant communication concern — plan review requested</td><td><span class="status s-progress">In Progress</span></td></tr>
+          <tr><td class="td-muted">15 May 2026</td><td><span class="status s-closed">Screening</span></td><td class="td-name">All Sites</td><td>Quarterly NDIS worker screening check audit completed</td><td><span class="status s-closed">94% Current</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AUDIT PROGRAM ═══ -->
+<div class="page" id="page-audit">
+  <div class="page-header">
+    <h2>Practice &amp; Values Verification (PVV) Audit Program</h2>
+    <p>Internal audit schedule aligned to NDIS Practice Standards 2025 — all Fighting Chance business units</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric blue"><div class="metric-label">Audits Scheduled</div><div class="metric-value">8</div><div class="metric-sub">2026 cycle</div></div>
+    <div class="metric green"><div class="metric-label">Completed</div><div class="metric-value">6</div><div class="metric-badge badge-green">On Track</div></div>
+    <div class="metric orange"><div class="metric-label">In Progress</div><div class="metric-value">2</div><div class="metric-sub">Active now</div></div>
+    <div class="metric red"><div class="metric-label">Non-Conformities</div><div class="metric-value">9</div><div class="metric-badge badge-amber">7 Addressed</div></div>
+  </div>
+
+  <div class="grid-60-40">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">2026 Audit Schedule</div></div>
+      <div class="panel-body" style="padding:0;">
+        <table class="data-table">
+          <thead><tr><th>Site / Program</th><th>Type</th><th>Scheduled</th><th>Lead Auditor</th><th>Status</th><th>Non-Conf.</th></tr></thead>
+          <tbody>
+            <tr><td class="td-name">Avenue Frenchs Forest</td><td class="td-muted">Certification</td><td class="td-muted">Feb 2026</td><td class="td-muted">External (BSI)</td><td><span class="status s-closed">Complete</span></td><td class="td-muted" style="font-weight:700;color:#d9534f;">2</td></tr>
+            <tr><td class="td-name">Jigsaw Frenchs Forest</td><td class="td-muted">PVV Internal</td><td class="td-muted">Mar 2026</td><td class="td-muted">Q&CI Team</td><td><span class="status s-closed">Complete</span></td><td class="td-muted" style="font-weight:700;color:#d9534f;">1</td></tr>
+            <tr><td class="td-name">Avenue Parramatta</td><td class="td-muted">PVV Internal</td><td class="td-muted">Apr 2026</td><td class="td-muted">Q&CI Team</td><td><span class="status s-closed">Complete</span></td><td class="td-muted" style="font-weight:700;color:#d9534f;">3</td></tr>
+            <tr><td class="td-name">Avenue Botany</td><td class="td-muted">PVV Internal</td><td class="td-muted">May 2026</td><td class="td-muted">Q&CI Team</td><td><span class="status s-progress">In Progress</span></td><td class="td-muted">—</td></tr>
+            <tr><td class="td-name">SIL — All Sites</td><td class="td-muted">Mid-Term</td><td class="td-muted">May 2026</td><td class="td-muted">External (SAI Global)</td><td><span class="status s-progress">In Progress</span></td><td class="td-muted">—</td></tr>
+            <tr><td class="td-name">Support Coordination</td><td class="td-muted">PVV Internal</td><td class="td-muted">Jul 2026</td><td class="td-muted">Q&CI Team</td><td><span class="status s-open">Scheduled</span></td><td class="td-muted">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">NDIS Audit Cycle Timeline</div></div>
+      <div class="panel-body">
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="tl-dot complete"></div>
+            <div class="tl-date">Nov 2023</div>
+            <div class="tl-title">Initial Registration Audit</div>
+            <div class="tl-desc">External certification — all modules cleared</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot complete"></div>
+            <div class="tl-date">Feb 2025</div>
+            <div class="tl-title">Mid-Term Review Audit</div>
+            <div class="tl-desc">4 non-conformities — all resolved within 90 days</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot active"></div>
+            <div class="tl-date">May 2026</div>
+            <div class="tl-title">Internal PVV Program (Active)</div>
+            <div class="tl-desc">Ongoing internal audit — preparing for renewal</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-dot upcoming"></div>
+            <div class="tl-date">Nov 2026</div>
+            <div class="tl-title">Registration Renewal Audit</div>
+            <div class="tl-desc">External certification — registration expires Nov 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NON-CONFORMITY TRACKER -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Non-Conformity Tracker</div>
+      <div class="panel-action" onclick="openModal('nc-modal')">+ Log Non-Conformity</div>
+    </div>
+    <div class="panel-body" style="padding:0;">
+      <table class="data-table">
+        <thead><tr><th>Ref</th><th>Standard</th><th>Finding</th><th>Site</th><th>Due</th><th>Risk</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">NC-001</td><td class="td-muted">4.1 Governance</td><td>Board meeting minutes not documented to required standard</td><td class="td-name">HQ</td><td class="td-muted">30 Jun</td><td><span class="status s-moderate">Moderate</span></td><td><span class="status s-closed">Closed</span></td></tr>
+          <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">NC-002</td><td class="td-muted">2.6 Incident Mgmt</td><td>Incident response timeframes not consistently met</td><td class="td-name">Avenue Parramatta</td><td class="td-muted">15 Jun</td><td><span class="status s-critical">Critical</span></td><td><span class="status s-progress">In Progress</span></td></tr>
+          <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">NC-003</td><td class="td-muted">1.4 Service Agreements</td><td>3 participant service agreements unsigned</td><td class="td-name">Avenue Botany</td><td class="td-muted">7 Jun</td><td><span class="status s-moderate">Moderate</span></td><td><span class="status s-progress">In Progress</span></td></tr>
+          <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">NC-004</td><td class="td-muted">3.1 Worker Screen.</td><td>2 workers with expired NDIS checks still rostered</td><td class="td-name">Jigsaw</td><td class="td-muted">Overdue</td><td><span class="status s-critical">Critical</span></td><td><span class="status s-overdue">Overdue</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CI REGISTER ═══ -->
+<div class="page" id="page-ci">
+  <div class="page-header">
+    <h2>Continuous Improvement Action Register</h2>
+    <p>Organisation-wide improvement actions — prioritised, owned, tracked to closure</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric orange"><div class="metric-label">Total Actions</div><div class="metric-value">12</div></div>
+    <div class="metric red"><div class="metric-label">Overdue</div><div class="metric-value">3</div><div class="metric-badge badge-red">Needs Escalation</div></div>
+    <div class="metric blue"><div class="metric-label">In Progress</div><div class="metric-value">4</div></div>
+    <div class="metric green"><div class="metric-label">Closed (MTD)</div><div class="metric-value">5</div><div class="metric-badge badge-green">+2 this week</div></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-title">Active Improvement Actions</div>
+      <button class="add-btn" onclick="openModal('ci-modal')">+ Add Action</button>
+    </div>
+    <div class="panel-body" id="ci-list">
+      <!-- Items rendered by JS -->
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INCIDENTS ═══ -->
+<div class="page" id="page-incidents">
+  <div class="page-header">
+    <h2>Incidents &amp; Complaints Log</h2>
+    <p>Mandatory reporting obligations under NDIS (Incident Management) Rules 2018</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric red"><div class="metric-label">Incidents YTD</div><div class="metric-value">23</div><div class="metric-sub">14 reportable to Commission</div></div>
+    <div class="metric orange"><div class="metric-label">Open Incidents</div><div class="metric-value">2</div><div class="metric-badge badge-red">Action Required</div></div>
+    <div class="metric blue"><div class="metric-label">Avg. Response Time</div><div class="metric-value">4.2h</div><div class="metric-sub">Target: &lt;4h</div></div>
+    <div class="metric teal"><div class="metric-label">Complaints YTD</div><div class="metric-value">7</div><div class="metric-sub">5 closed, 2 open</div></div>
+  </div>
+
+  <div class="grid-2">
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-title">Incident Register</div>
+        <button class="add-btn" onclick="openModal('inc-modal')">+ Log Incident</button>
+      </div>
+      <div class="panel-body" style="padding:0;">
+        <table class="data-table">
+          <thead><tr><th>Ref</th><th>Date</th><th>Type</th><th>Site</th><th>Status</th></tr></thead>
+          <tbody id="incident-table">
+            <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">INC-023</td><td class="td-muted">21 May</td><td>Participant Injury</td><td class="td-name">Avenue Parra.</td><td><span class="status s-progress">Under Review</span></td></tr>
+            <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">INC-022</td><td class="td-muted">18 May</td><td>Medication Error</td><td class="td-name">SIL</td><td><span class="status s-progress">Reported</span></td></tr>
+            <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">INC-021</td><td class="td-muted">14 May</td><td>Restrictive Practice</td><td class="td-name">Avenue Botany</td><td><span class="status s-closed">Closed</span></td></tr>
+            <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">INC-020</td><td class="td-muted">9 May</td><td>Unauthorised Access</td><td class="td-name">Jigsaw</td><td><span class="status s-closed">Closed</span></td></tr>
+            <tr><td class="td-muted" style="font-family:monospace;font-size:11px;">INC-019</td><td class="td-muted">3 May</td><td>Participant Injury</td><td class="td-name">Avenue FF</td><td><span class="status s-closed">Closed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Incident Types — YTD Breakdown</div></div>
+      <div class="panel-body">
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-label">Participant Injury</div><div class="bar-track"><div class="bar-fill prog-red" style="width:0%" data-w="39%"></div></div><div class="bar-val">9</div></div>
+          <div class="bar-row"><div class="bar-label">Medication</div><div class="bar-track"><div class="bar-fill prog-orange" style="width:0%" data-w="26%"></div></div><div class="bar-val">6</div></div>
+          <div class="bar-row"><div class="bar-label">Restrictive Pract.</div><div class="bar-track"><div class="bar-fill prog-amber" style="width:0%" data-w="17%"></div></div><div class="bar-val">4</div></div>
+          <div class="bar-row"><div class="bar-label">Unauth. Access</div><div class="bar-track"><div class="bar-fill prog-blue" style="width:0%" data-w="13%"></div></div><div class="bar-val">3</div></div>
+          <div class="bar-row"><div class="bar-label">Other</div><div class="bar-track"><div class="bar-fill" style="width:0%;background:#aaa" data-w="5%"></div></div><div class="bar-val">1</div></div>
+        </div>
+        <div style="margin-top:18px;">
+          <div class="panel-title" style="font-size:13px;margin-bottom:10px;">NDIS Commission Reporting Status</div>
+          <div style="font-size:12px;color:var(--muted);line-height:1.8;">
+            <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>Reportable to Commission</span><span style="font-weight:700;color:var(--fc-navy);">14 / 23</span></div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);"><span>Reported on time (&lt;24h)</span><span style="font-weight:700;color:var(--fc-green);">12 / 14</span></div>
+            <div style="display:flex;justify-content:space-between;padding:4px 0;"><span>Outstanding submissions</span><span style="font-weight:700;color:var(--fc-red);">2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ WORKERS ═══ -->
+<div class="page" id="page-workers">
+  <div class="page-header">
+    <h2>Worker Compliance Register</h2>
+    <p>NDIS Worker Screening Checks, qualifications, and mandatory training status</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric green"><div class="metric-label">Current Checks</div><div class="metric-value">94%</div><div class="metric-sub">86 of 91 workers</div></div>
+    <div class="metric amber"><div class="metric-label">Expiring 90 Days</div><div class="metric-value">6</div><div class="metric-badge badge-amber">Action Required</div></div>
+    <div class="metric red"><div class="metric-label">Expired</div><div class="metric-value">2</div><div class="metric-badge badge-red">Immediate Action</div></div>
+    <div class="metric blue"><div class="metric-label">Mandatory Training</div><div class="metric-value">89%</div><div class="metric-sub">Current completion</div></div>
+  </div>
+
+  <div class="grid-60-40">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Worker Screening — Attention Required</div></div>
+      <div class="panel-body">
+        <div id="workers-list">
+          <div class="screening-row"><div class="screen-avatar">JM</div><div><div class="screen-name">Jordan M.</div><div class="screen-role">Support Worker · Avenue Parramatta</div></div><div><span class="screen-exp over">EXPIRED</span></div></div>
+          <div class="screening-row"><div class="screen-avatar" style="background:#2e7bb8;">AL</div><div><div class="screen-name">Alex L.</div><div class="screen-role">Jigsaw Employment Coach</div></div><div><span class="screen-exp over">EXPIRED</span></div></div>
+          <div class="screening-row"><div class="screen-avatar" style="background:#3aada8;">RP</div><div><div class="screen-name">Rachel P.</div><div class="screen-role">Support Worker · SIL</div></div><div><span class="screen-exp warn">Exp. Jun 2026</span></div></div>
+          <div class="screening-row"><div class="screen-avatar" style="background:#5cb85c;">TW</div><div><div class="screen-name">Thomas W.</div><div class="screen-role">Support Coordinator</div></div><div><span class="screen-exp warn">Exp. Jul 2026</span></div></div>
+          <div class="screening-row"><div class="screen-avatar" style="background:#e87722;">MK</div><div><div class="screen-name">Mary K.</div><div class="screen-role">Support Worker · Avenue Botany</div></div><div><span class="screen-exp warn">Exp. Jul 2026</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Mandatory Training Compliance</div></div>
+      <div class="panel-body">
+        <div class="bar-chart">
+          <div class="bar-row"><div class="bar-label">NDIS Orientation</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="98%"></div></div><div class="bar-val">98%</div></div>
+          <div class="bar-row"><div class="bar-label">Safeguarding</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="95%"></div></div><div class="bar-val">95%</div></div>
+          <div class="bar-row"><div class="bar-label">Restrictive Pract.</div><div class="bar-track"><div class="bar-fill prog-orange" style="width:0%" data-w="82%"></div></div><div class="bar-val">82%</div></div>
+          <div class="bar-row"><div class="bar-label">Medication Mgmt</div><div class="bar-track"><div class="bar-fill prog-orange" style="width:0%" data-w="76%"></div></div><div class="bar-val">76%</div></div>
+          <div class="bar-row"><div class="bar-label">Emergency Proc.</div><div class="bar-track"><div class="bar-fill prog-green" style="width:0%" data-w="91%"></div></div><div class="bar-val">91%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SITES ═══ -->
+<div class="page" id="page-sites">
+  <div class="page-header">
+    <h2>Site Quality Overview</h2>
+    <p>Q&CI performance snapshot across all Fighting Chance locations and service streams</p>
+  </div>
+  <div class="grid-3">
+    <div class="site-card" style="border-top-color:#e87722;">
+      <div class="site-name">Avenue Frenchs Forest</div>
+      <div class="site-type">Day Program · Est. 2015</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">91%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">1</span></div>
+      <div class="site-row"><span class="site-row-label">Last Audit</span><span class="site-row-val">Feb 2026</span></div>
+      <div style="margin-top:10px;"><span class="status s-compliant">Compliant</span></div>
+    </div>
+    <div class="site-card" style="border-top-color:#2e7bb8;">
+      <div class="site-name">Jigsaw Frenchs Forest</div>
+      <div class="site-type">Employment Pathway · Est. 2013</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">87%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">2</span></div>
+      <div class="site-row"><span class="site-row-label">Last Audit</span><span class="site-row-val">Mar 2026</span></div>
+      <div style="margin-top:10px;"><span class="status s-review">1 Non-Conformity</span></div>
+    </div>
+    <div class="site-card" style="border-top-color:#3aada8;">
+      <div class="site-name">Avenue Parramatta</div>
+      <div class="site-type">Day Program · Est. 2019</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">79%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">4</span></div>
+      <div class="site-row"><span class="site-row-label">Last Audit</span><span class="site-row-val">Apr 2026</span></div>
+      <div style="margin-top:10px;"><span class="status s-gap">3 Non-Conformities</span></div>
+    </div>
+    <div class="site-card" style="border-top-color:#5cb85c;">
+      <div class="site-name">Avenue Botany</div>
+      <div class="site-type">Day Program · Est. 2021</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">84%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">2</span></div>
+      <div class="site-row"><span class="site-row-label">Last Audit</span><span class="site-row-val">In Progress</span></div>
+      <div style="margin-top:10px;"><span class="status s-progress">Audit Active</span></div>
+    </div>
+    <div class="site-card" style="border-top-color:#d9534f;">
+      <div class="site-name">SIL Services</div>
+      <div class="site-type">Supported Independent Living</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">88%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">2</span></div>
+      <div class="site-row"><span class="site-row-label">Last Audit</span><span class="site-row-val">Mid-Term Active</span></div>
+      <div style="margin-top:10px;"><span class="status s-progress">Audit Active</span></div>
+    </div>
+    <div class="site-card" style="border-top-color:#f0ad4e;">
+      <div class="site-name">Support Coordination</div>
+      <div class="site-type">Plan Support Service</div>
+      <div class="site-row"><span class="site-row-label">NDIS Compliance</span><span class="site-row-val">93%</span></div>
+      <div class="site-row"><span class="site-row-label">Open CI Actions</span><span class="site-row-val">1</span></div>
+      <div class="site-row"><span class="site-row-label">Next Audit</span><span class="site-row-val">Jul 2026</span></div>
+      <div style="margin-top:10px;"><span class="status s-compliant">Compliant</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ NDIS REPORTING ═══ -->
+<div class="page" id="page-reporting">
+  <div class="page-header">
+    <h2>NDIS Commission Mandatory Reporting</h2>
+    <p>Reportable incident obligations, submission tracking, and Commission correspondence</p>
+  </div>
+
+  <div class="metrics">
+    <div class="metric orange"><div class="metric-label">Reportable Incidents</div><div class="metric-value">14</div><div class="metric-sub">YTD 2026</div></div>
+    <div class="metric green"><div class="metric-label">Submitted on Time</div><div class="metric-value">12</div><div class="metric-badge badge-green">86% Rate</div></div>
+    <div class="metric red"><div class="metric-label">Outstanding</div><div class="metric-value">2</div><div class="metric-badge badge-red">Action Needed</div></div>
+    <div class="metric blue"><div class="metric-label">Reg. Expiry</div><div class="metric-value">Nov 26</div><div class="metric-sub">Renewal audit due</div></div>
+  </div>
+
+  <div class="grid-60-40">
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Reportable Incident Submissions</div></div>
+      <div class="panel-body">
+        <div class="report-item">
+          <div class="report-icon ri-red">🚨</div>
+          <div class="report-info"><div class="report-title">Serious Injury Incidents</div><div class="report-sub">Must be reported within 24 hours of becoming aware</div></div>
+          <div class="report-meta"><div class="report-count" style="color:var(--fc-red);">2</div><span class="report-label">Outstanding</span></div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon ri-orange">⚠️</div>
+          <div class="report-info"><div class="report-title">Unauthorised Restrictive Practices</div><div class="report-sub">Report within 5 business days</div></div>
+          <div class="report-meta"><div class="report-count" style="color:var(--fc-green);">✓</div><span class="report-label">Current</span></div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon ri-blue">💊</div>
+          <div class="report-info"><div class="report-title">Medication &amp; Restraint Events</div><div class="report-sub">Report within 5 business days</div></div>
+          <div class="report-meta"><div class="report-count" style="color:var(--fc-green);">✓</div><span class="report-label">Current</span></div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon ri-teal">📋</div>
+          <div class="report-info"><div class="report-title">Abuse / Neglect Allegations</div><div class="report-sub">Immediate notification required</div></div>
+          <div class="report-meta"><div class="report-count">0</div><span class="report-label">YTD</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-header"><div class="panel-title">Reporting Compliance</div></div>
+      <div class="panel-body">
+        <div class="donut-wrap">
+          <svg width="120" height="120" viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#e0e6ef" stroke-width="12"/>
+            <circle cx="60" cy="60" r="48" fill="none" stroke="#5cb85c" stroke-width="12" stroke-dasharray="257.6 43.1" stroke-linecap="round"/>
+          </svg>
+          <div class="donut-center"><div class="big">86%</div><div class="sm">ON TIME</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:2;">
+          <div style="display:flex;justify-content:space-between;"><span>Submitted ≤24h</span><span style="font-weight:700;color:var(--fc-navy);">8</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Submitted ≤5 days</span><span style="font-weight:700;color:var(--fc-navy);">4</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Late submissions</span><span style="font-weight:700;color:var(--fc-amber);">2</span></div>
+          <div style="display:flex;justify-content:space-between;"><span>Outstanding</span><span style="font-weight:700;color:var(--fc-red);">2</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRACTICE STANDARDS SELF-ASSESSMENT -->
+  <div class="panel">
+    <div class="panel-header"><div class="panel-title">NDIS Practice Standards Self-Assessment — Pre-Renewal Checklist</div></div>
+    <div class="panel-body" id="renewal-checklist">
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Rights and Responsibilities module documentation updated</span></div>
+      <div class="check-item checked" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Participant feedback and complaints procedure reviewed</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Incident management register current and complete</span></div>
+      <div class="check-item checked" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Worker screening checks verified for all active workers</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">All participant service agreements reviewed and signed</span></div>
+      <div class="check-item checked" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Behaviour support plans current and authorised</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Governance documentation (board minutes, policies) current</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Emergency and disaster management plans reviewed</span></div>
+      <div class="check-item checked" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Mandatory training completion records current</span></div>
+      <div class="check-item" onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-label">Participant input into quality governance documented</span></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .main -->
+
+<!-- MODALS -->
+<div class="modal-overlay" id="ci-modal">
+  <div class="modal">
+    <h3>Add CI Action</h3>
+    <p>Log a new continuous improvement action to the register</p>
+    <div class="modal-form">
+      <label>Action Title</label>
+      <input type="text" id="ci-input-title" placeholder="e.g. Update participant feedback process">
+      <label>Site / Business Unit</label>
+      <select id="ci-input-site">
+        <option>Avenue Frenchs Forest</option>
+        <option>Avenue Parramatta</option>
+        <option>Avenue Botany</option>
+        <option>Jigsaw Frenchs Forest</option>
+        <option>SIL Services</option>
+        <option>Support Coordination</option>
+        <option>HQ / All Sites</option>
+      </select>
+      <label>Priority</label>
+      <select id="ci-input-priority">
+        <option>Critical</option>
+        <option>High</option>
+        <option selected>Moderate</option>
+        <option>Low</option>
+      </select>
+      <label>Due Date</label>
+      <input type="date" id="ci-input-due">
+      <label>Action Owner</label>
+      <input type="text" id="ci-input-owner" placeholder="Name or role">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeModal('ci-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addCIAction()">Add to Register</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="inc-modal">
+  <div class="modal">
+    <h3>Log Incident</h3>
+    <p>Record a new incident or near-miss for reporting and investigation</p>
+    <div class="modal-form">
+      <label>Incident Type</label>
+      <select id="inc-input-type">
+        <option>Participant Injury</option>
+        <option>Medication Error</option>
+        <option>Restrictive Practice</option>
+        <option>Unauthorised Access</option>
+        <option>Abuse / Neglect Allegation</option>
+        <option>Near Miss</option>
+        <option>Other</option>
+      </select>
+      <label>Site</label>
+      <select id="inc-input-site">
+        <option>Avenue Frenchs Forest</option>
+        <option>Avenue Parramatta</option>
+        <option>Avenue Botany</option>
+        <option>Jigsaw Frenchs Forest</option>
+        <option>SIL Services</option>
+      </select>
+      <label>Brief Description</label>
+      <textarea id="inc-input-desc" placeholder="What happened..."></textarea>
+      <label>Reportable to NDIS Commission?</label>
+      <select id="inc-input-reportable"><option>Yes</option><option>No</option><option>Under Assessment</option></select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeModal('inc-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addIncident()">Log Incident</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="nc-modal">
+  <div class="modal">
+    <h3>Log Non-Conformity</h3>
+    <p>Record an audit finding against the NDIS Practice Standards</p>
+    <div class="modal-form">
+      <label>Practice Standard Reference</label>
+      <input type="text" id="nc-input-std" placeholder="e.g. 2.6 Incident Management">
+      <label>Finding</label>
+      <textarea id="nc-input-finding" placeholder="Describe the non-conformity..."></textarea>
+      <label>Risk Level</label>
+      <select id="nc-input-risk"><option>Critical</option><option>Moderate</option><option>Low</option></select>
+      <label>Site</label>
+      <select id="nc-input-site">
+        <option>Avenue Frenchs Forest</option><option>Avenue Parramatta</option>
+        <option>Avenue Botany</option><option>Jigsaw Frenchs Forest</option>
+        <option>SIL Services</option><option>HQ</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-secondary" onclick="closeModal('nc-modal')">Cancel</button>
+      <button class="btn-primary" onclick="closeModal('nc-modal');showToast('Non-conformity logged and assigned for corrective action')">Log Finding</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── LIVE CLOCK ──
+function updateClock() {
+  const now = new Date();
+  document.getElementById('live-dt').textContent = now.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}) + ' ' + now.toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'});
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ── PAGE NAV ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  animateBars();
+}
+
+// ── BAR ANIMATION ──
+function animateBars() {
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill[data-w]').forEach(el => {
+      el.style.width = el.getAttribute('data-w');
+    });
+  }, 100);
+}
+animateBars();
+
+// ── CI DATA ──
+const ciActions = [
+  { id: 'CI-007', title: 'Update participant service agreement templates across all Avenue sites', site: 'Avenue — All', owner: 'Q&CI Coordinator', due: '30 May 2026', status: 'overdue', priority: 'Critical' },
+  { id: 'CI-008', title: 'Implement 24-hour incident response protocol at SIL service', site: 'SIL Services', owner: 'Site Manager', due: '15 Jun 2026', status: 'progress', priority: 'High' },
+  { id: 'CI-009', title: 'Conduct restrictive practice training refresh for Avenue Parramatta team', site: 'Avenue Parramatta', owner: 'Training Lead', due: '20 Jun 2026', status: 'open', priority: 'Moderate' },
+  { id: 'CI-010', title: 'Review and update emergency management plan — Botany site', site: 'Avenue Botany', owner: 'Site Manager', due: '1 Jun 2026', status: 'overdue', priority: 'High' },
+  { id: 'CI-011', title: 'Establish participant feedback loop and quarterly reporting cycle', site: 'HQ / All Sites', owner: 'Q&CI Coordinator', due: '30 Jun 2026', status: 'progress', priority: 'Moderate' },
+  { id: 'CI-012', title: 'Escalate expired NDIS worker checks — Jigsaw (NC-004 resolution)', site: 'Jigsaw Frenchs Forest', owner: 'People & Culture', due: '23 May 2026', status: 'overdue', priority: 'Critical' },
+];
+
+function renderCI() {
+  const container = document.getElementById('ci-list');
+  container.innerHTML = ciActions.map(item => {
+    const statusMap = { overdue: 's-overdue', progress: 's-progress', open: 's-open', closed: 's-closed' };
+    const statusLabel = { overdue: 'Overdue', progress: 'In Progress', open: 'Open', closed: 'Closed' };
+    const prioColor = { Critical: '#d9534f', High: '#e87722', Moderate: '#f0ad4e', Low: '#5cb85c' };
+    return `<div class="ci-item">
+      <div>
+        <div class="ci-id">${item.id} · <span style="color:${prioColor[item.priority]}">${item.priority}</span></div>
+        <div class="ci-title">${item.title}</div>
+        <div class="ci-meta">📍 ${item.site} &nbsp;·&nbsp; 👤 ${item.owner}</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="ci-due ${item.status === 'overdue' ? 'overdue' : ''}">Due: ${item.due}</div>
+        <div style="margin-top:5px;"><span class="status ${statusMap[item.status]}">${statusLabel[item.status]}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+renderCI();
+
+// ── ADD CI ACTION ──
+function addCIAction() {
+  const title = document.getElementById('ci-input-title').value.trim();
+  const site = document.getElementById('ci-input-site').value;
+  const priority = document.getElementById('ci-input-priority').value;
+  const due = document.getElementById('ci-input-due').value;
+  const owner = document.getElementById('ci-input-owner').value.trim() || 'Q&CI Coordinator';
+  if (!title) { alert('Please enter an action title.'); return; }
+  const dueLabel = due ? new Date(due).toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}) : 'TBD';
+  ciActions.unshift({ id: 'CI-0' + (ciActions.length + 7), title, site, owner, due: dueLabel, status: 'open', priority });
+  renderCI();
+  closeModal('ci-modal');
+  showToast('CI Action added to register ✓');
+  document.getElementById('ci-input-title').value = '';
+  document.getElementById('ci-input-owner').value = '';
+}
+
+// ── ADD INCIDENT ──
+let incCount = 23;
+function addIncident() {
+  const type = document.getElementById('inc-input-type').value;
+  const site = document.getElementById('inc-input-site').value;
+  const reportable = document.getElementById('inc-input-reportable').value;
+  incCount++;
+  const tbody = document.getElementById('incident-table');
+  const row = document.createElement('tr');
+  const today = new Date().toLocaleDateString('en-AU',{day:'numeric',month:'short'});
+  row.innerHTML = `<td class="td-muted" style="font-family:monospace;font-size:11px;">INC-0${incCount}</td><td class="td-muted">${today}</td><td>${type}</td><td class="td-name">${site.replace(' Frenchs Forest','').replace(' Services','')}</td><td><span class="status s-progress">New</span></td>`;
+  tbody.insertBefore(row, tbody.firstChild);
+  closeModal('inc-modal');
+  showToast(`Incident INC-0${incCount} logged${reportable === 'Yes' ? ' — NDIS Commission notification required' : ''} ✓`);
+}
+
+// ── MODAL ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(m => m.addEventListener('click', e => { if(e.target === m) m.classList.remove('open'); }));
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+// ── CHECKLIST ──
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  if(el.classList.contains('checked')) el.querySelector('.check-box').textContent = '✓';
+  else el.querySelector('.check-box').textContent = '';
+}
+</script>
+</body>
+</html>
